@@ -133,7 +133,7 @@ We can run `docker volume ls` to list volumes:
 ```
 docker volume ls
 ```
-###Remove volume 
+### Remove volume 
 
 We can run `docker volume rm < volume name>` to list volumes:
 ```
