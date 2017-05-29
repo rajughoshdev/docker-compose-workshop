@@ -1,24 +1,24 @@
 version: '2'
-services: 
+services:
+
   web:
     image: wordpress
-    ports: 
+    ports:
     - "8083:80"
     environment:
-      WORDPRESS_DB_HOST: mysql 
+      WORDPRESS_DB_HOST: mysql
       WORDPRESS_DB_PASSWORD: mypaass
       WORDPRESS_DB_USER: root
     links:
     - mysql
-      
-      
-  mysql: 
+
+  mysql:
     image: mysql:5.7
     environment:
       MYSQL_ROOT_PASSWORD: mypaass
       MYSQL_DATABASE: mydb
-    volumes: 
+    volumes:
     - mysql-db:/var/lib/mysql
-    
-volumes: 
-  mysql-db: 
+
+volumes:
+  mysql-db:

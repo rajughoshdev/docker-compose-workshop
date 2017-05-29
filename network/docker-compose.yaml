@@ -1,31 +1,29 @@
-version: "2"
-services: 
+version: "3"
+services:
   web1:
     image: nginx:latest
-    ports: 
+    ports:
      - "90:80"
-    networks:
-      - developergroup  
-#      - devopsgroup   
+   networks:
+   - developergroup
+   - devopsgroup
 
   web2:
     image: nginx:latest
-    ports: 
+    ports:
      - "88:80"
-#    networks:
-#      - developergroup 
-#
+    networks:
+      - developergroup
   web3:
     image: nginx:latest
-    ports: 
+    ports:
      - "89:80"
-#    networks:
-#      - devopsgroup 
-#
-networks:
-  developergroup: 
-    driver: developer        
+    networks:
+      - devopsgroup
 
-  devopsgroup: 
+networks:
+  devopsgroup:
+    driver: devops
+  deveopergroup:
     driver: devops
 
