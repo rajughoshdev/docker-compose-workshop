@@ -24,47 +24,64 @@ Compose is a tool for defining and running multi-container Docker applications. 
 Review `Dockerfile`:
 
 ```
-FROM node:7.7.0-alpine
+FROM node:6.2.0
+RUN mkdir -p /var/www/node
+ADD ./myapp/ /var/www/node
+WORKDIR /var/www/node
+CMD npm install
+CMD npm start
+EXPOSE 8082
 
 ```
 
-We use the base image of `node:7.7.0-alpine`. It is the official image in Alpine, a minimal OS.
+We use the base image of `node:6.2.0`. It is the node official image of Docker.
 
-The `Dockerfile` then creates the directory where our code will be stored, `/code`, and it copies the `package.json` so it can install the node dependencies.
+In the `Dockerfile` we creates the directory `www/node` where our code will be store, then we added our project all code in `/var/www/node`. 
+After that we run`npm install` and `npm start` to install all the packages and strar npm server. We used `8082` port for running our server.  
 
-Afterwards it copies all the code we have in the host machine and runs the command that will keep the container running.
 
 3. Review `docker-compose.yml`:
 
 ```
 version: '2'
 services:
+  db:
+    image: mysql:5.7
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: mypassword
+
+  node:
+    links:
+     - db
+    build: .
+    volumes:
+      - "./myapp:/var/www/node"
+    ports:
+      - "8082:8082"
+
+volumes:
+    db_data:
   
 ```
-
-The `docker-compose.yml` file describes the services that make your app. In this example those services are a web server and database. The compose file also describes which Docker images these services use, how they link together, any volumes they might need mounted inside the containers. Finally, the `docker-compose.yml` file describes which ports these services expose. See the docker-compose.yml [reference](https://docs.docker.com/compose/compose-file/) for more information on how this file works.
-
 
 ## Run the app
 
 ### Build the images
 
-With docker-compose we can build all the images at once running:
+With docker-compose we can build all the images at once:
 ```
 docker-compose build
 ```
-
 The `docker-compose build` reads `docker-compose.yml` and build all the services defined in there.
 
-### Run a command against a service
-We can run a one-time command against a service. For example, the following command starts the `web` service and runs `sh` as its command.
-```
-docker-compose run web sh
-```
 
 ### Start services
 
-We can run `docker-compose up` that builds, (re)creates, starts, and attaches to containers for a service. Unless they are already running, this command also starts any linked services.
+We can run `docker-compose up` that builds, (re)creates, starts, and attaches to containers for a service. 
 
 Type in your terminal: 
 
@@ -75,7 +92,11 @@ docker-compose up
 If we want, we can run the containers in background with `-d` flag:
 ```
 docker-compose up -d
+
 ```
+
+
+
 ### Logs
 
 We can see the log output from services running:
@@ -83,14 +104,14 @@ We can see the log output from services running:
 docker-compose logs
 ```
 
-If we want to review the logs of a specific service, e.g. `web`:
+If we want to review the logs of a specific service, e.g. `node`:
 ```
-docker-compose logs web
+docker-compose logs node
 ```
 
 ### List containers
 
-We can run `ps` like in `docker ps` to list containers and their status:
+We can run `docker ps or docker-compose ps ` to list containers and their status:
 ```
 docker-compose ps
 ```
@@ -103,16 +124,23 @@ docker-compose stop
 
 Stops running containers without removing them. They can be started again with `docker-compose start`.
 
+
 If we want we can stop only one container:
 ```
-docker-compose stop web
+docker-compose stop node
 ```
 
 ### Start container
 
-Starts existing containers for a service, e.g. `web`:
+Starts existing containers for a service, e.g. `node`:
 ```
-docker-compose start web
+docker-compose start node
+```
+
+### Run a command against a service
+We can run a one-time command against a service. For example, the following command starts the `node` service and runs `bash` as its command.
+```
+docker-compose run web sh
 ```
 
 ### Remove containers
