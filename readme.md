@@ -36,7 +36,7 @@ EXPOSE 8082
 
 We use the base image of `node:6.2.0`. It is the node official image of Docker.
 
-In the `Dockerfile` we creates the directory `www/node` where our code will be store, then we added our project all code in `/var/www/node`. 
+In the `Dockerfile` we create the directory `www/node` where our code will be store, then we added our project code in `/var/www/node`. 
 After that we run`npm install` and `npm start` to install all the packages and strar npm server. We used `8082` port for running our server.  
 
 
