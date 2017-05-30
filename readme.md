@@ -50,7 +50,7 @@ services:
     volumes:
       - db_data:/var/lib/mysql
     ports:
-      - "3306:3306"
+      - "3309:3306"
     environment:
       MYSQL_ROOT_PASSWORD: mypassword
 
@@ -66,6 +66,17 @@ services:
 volumes:
     db_data:
   
+```
+Review application `config`:
+
+```
+{
+  "development": {
+	"defaultDbDriver": "mysql",
+    "mysql": "mysql://root:mypassword@db/myapp"
+  }
+}
+
 ```
 
 ## Run the app

@@ -6,7 +6,6 @@
   "production": {
 	"defaultDbDriver": "mysql",
     "mongodb": "mongodb://localhost:27017/myapp",
-     "mysql": "mysql://root:@localhost/myapp",
-    "mysql": "mysql://root:tiptop123@db/myapp"
+    "mysql": "mysql://root:@localhost/myapp"  
   }
 }
