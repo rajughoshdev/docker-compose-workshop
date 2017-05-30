@@ -1,0 +1,18 @@
+version: '3'
+services:
+  webserver: 
+    image: nginx:latest
+    ports:
+     - "90:80"
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+      resources:
+        limits:
+          cpus: '0.001'
+          memory: 50M
+        reservations:
+          cpus: '0.0001'
+          memory: 20M
+        
